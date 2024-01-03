@@ -1,7 +1,7 @@
-describe('Meu primeiro conjunto de testes', () => {
+describe('Testes E2E do Projeto Carro', () => {
     // conjunto de testes
 
-    it('Visita uma URL', () => { // caso de teste
+    beforeEach(() => { // caso de teste
 
         cy.visit('http://127.0.0.1:5500/'); // comando de teste
 
@@ -50,5 +50,44 @@ describe('Meu primeiro conjunto de testes', () => {
         cy.get('[src="./img/retrovisor-dir.png"]').should('be.visible');
         cy.get('#retrovisor-dir > .close').click();
         
+    });
+
+    it('Verifica se o overlay tem o tamanho da imagem-base', () => {
+
+        cy.get('#imagemBase').should('have.prop', 'clientHeight').then(clientHeight => {
+
+            cy.get('#overlay').invoke('height').should('equal', clientHeight);
+    });
+});
+
+    it('Verifica se o overlay está oculto', () => {
+            
+            cy.get('#overlay').should('have.class', 'oculto').and('not.be.visible');
+       
+     });
+
+     it('Verifica se a cor do overlay está correta', () => {
+
+        cy.get('#overlay').should('have.css', 'background-color', 'rgba(0, 0, 0, 0.533)');
+
+     });
+
+    it('Verifica se os cards estão ocultos', () => {
+
+            cy.get('.data').each(card => {
+
+                cy.wrap(card).should('not.be.visible');
+
+            });
+
+        });
+    it('Verifica se as imagems de destaque estão ocultas', () => {
+
+        cy.get('[data-test="imgParabrisa"]').should('have.class', 'oculto').and('not.be.visible')
+
+        cy.get('[data-test="imgRetrovisorDir"]').should('have.class', 'oculto').and('not.be.visible')
+        
+        cy.get('[data-test="imgEspelhoRetrovisor"]').should('have.class', 'oculto').and('not.be.visible')
+
     });
 });
